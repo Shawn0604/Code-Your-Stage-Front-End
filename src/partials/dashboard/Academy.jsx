@@ -1,11 +1,12 @@
 import DoughnutChart from "../../charts/DoughnutChart";
+
 // import { academyStats } from "../../data/mockData";
 import useAcademystats from "../../hooks/dashboard/useAcademystats";
 
 function Academy() {
   const { labels, values } = useAcademystats();
   const departmentToAcademy = {
-    "心理所一般組": "學院", 
+    "心理所一般組": "文學院", 
     "創新領域學士學位學程":"社會科學院", 
     "電機工程學系": "電資學院",
     "數學系":"理學院", 
@@ -31,30 +32,25 @@ function Academy() {
     "資訊工程研究所": "電資學院", 
     "經濟系": "文學院", 
     "外國語文學系/社會學系": "文學院"};
-    const academyTotals = {};
 
-    // 遍历每个科系，将人数累加到对应学院的总人数中
-    labels.forEach((department, index) => {
-      const academy = departmentToAcademy[department];
-      const value = values[index];
-  
-      if (!academyTotals[academy]) {
-        academyTotals[academy] = 0;
-      }
-  
-      academyTotals[academy] += value;
-    });
-  
-    // 将学院和总人数分别存储到新的数组中
-    const academies = Object.keys(academyTotals);
-    const academyValues = Object.values(academyTotals);
-  
-  // const academies = labels.map(labels => departmentToAcademy[labels]);
+  const academyTotals = {};
 
-  // 將科系轉換為學院
-  // const s= departmentToAcademy[labels];
-  // const { labels, values } = academyStats;
-  // 生成隨機色碼的函式
+    if (labels && values && Array.isArray(labels) && Array.isArray(values)) {
+      labels.forEach((department, index) => {
+        const academy = departmentToAcademy[department];
+        const value = values[index];
+    
+        if (!academyTotals[academy]) {
+          academyTotals[academy] = 0;
+        }
+    
+        academyTotals[academy] += value;
+      });
+    }
+
+  const academies = Object.keys(academyTotals);
+  const academyValues = Object.values(academyTotals);
+  
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -63,13 +59,24 @@ function Academy() {
     }
     return color;
   };
+  // const chartData = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: "Distribution of colleges",
+  //       data: values,
+  //       backgroundColor: values?.map(() => getRandomColor()),
+  //       borderWidth: 0
+  //     }
+  //   ]
+  // };
   const chartData = {
     labels:academies,
     datasets: [
       {
         label: "Distribution of colleges",
         data: academyValues,
-        backgroundColor: academies?.map(() => getRandomColor()),
+        backgroundColor: academyValues?.map(() => getRandomColor()),
         borderWidth: 0
       }
     ]
@@ -84,7 +91,9 @@ function Academy() {
       </header>
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
-      {academies && <DoughnutChart data={chartData} width={389} height={260} />}
+      {academies && academies.length > 0 && (
+        <DoughnutChart data={chartData} width={389} height={260} />)}
+      {/* {values && <DoughnutChart data={chartData} width={389} height={260} />} */}
     </div>
   );
 }

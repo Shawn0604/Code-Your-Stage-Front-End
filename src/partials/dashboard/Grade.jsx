@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 // Import utilities
 import { tailwindConfig } from "../../utils/Utils";
-import { gradeStats } from "../../data/mockData";
+import useGradeStats from "../../hooks/dashboard/useGradeStats";
 
 ChartJS.register(
   CategoryScale,
@@ -35,7 +35,7 @@ export const options = {
 };
 
 function Grade() {
-  const { labels, values } = gradeStats;
+  const { labels, values } = useGradeStats();
   const data = {
     labels,
     datasets: [

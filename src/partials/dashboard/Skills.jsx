@@ -10,9 +10,11 @@ import {
 import { Radar } from "react-chartjs-2";
 
 // Import utilities
-// import { useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { tailwindConfig } from "../../utils/Utils";
-import { skills } from "../../data/mockData";
+// import { skills } from "../../data/mockData";
+import useSkills from "../../hooks/dashboard/useSkills";
+
 
 ChartJS.register(
   RadialLinearScale,
@@ -24,16 +26,24 @@ ChartJS.register(
 );
 
 function Skills() {
-  // const [cookies] = useCookies(["studentId"]);
-  // const { studentId } = cookies;
-  const studentId = "B11000000";
-  const { labels, values } = skills;
+  const [cookies] = useCookies(["studentId"]);
+  const { studentId } = cookies;
+  // const studentId = "B11000000";
+  const labels = [
+    "UIUX",
+    "backend",
+    "business analysis",
+    "design thinking",
+    "frontend"
+  ]
+// const { labels, values } =  usePostSkills(studentId,Skills);
+  
   const chartData = {
     labels,
     datasets: [
       {
         label: "能力值",
-        data: values,
+        data: studentId?useSkills(studentId).values:[0,0,0,0,0],
         backgroundColor: tailwindConfig().theme.colors.orange[500],
         borderColor: tailwindConfig().theme.colors.orange[500],
         borderWidth: 2
