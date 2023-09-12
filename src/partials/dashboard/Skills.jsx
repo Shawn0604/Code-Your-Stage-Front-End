@@ -26,7 +26,7 @@ ChartJS.register(
 );
 
 function Skills() {
-  const [cookies] = useCookies(["studentId"]);
+  const [ cookies ] = useCookies(["studentId"]);
   const { studentId } = cookies;
   // const studentId = "B11000000";
   const labels = [
@@ -36,7 +36,6 @@ function Skills() {
     "design thinking",
     "frontend"
   ]
-// const { labels, values } =  usePostSkills(studentId,Skills);
   
   const chartData = {
     labels,
